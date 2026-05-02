@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Đổi link Shopee</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background: #f2f2f7; margin: 0; padding: 20px; 
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .container { width: 100%; max-width: 500px; }
+        .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 25px; width: 100%; }
+        .logo-main { width: 60px; height: 60px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); object-fit: cover; cursor: pointer; }
+        .header-container h2 { color: #ee4d2d; margin: 0; font-size: 22px; font-weight: 800; text-align: left; line-height: 1.1; }
+
+        .input-box { background: white; border-radius: 24px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+        .input-actions { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 12px; }
+        .btn-small { border: none; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-paste { background: #e3f2fd; color: #1976d2; }
+        .btn-clear { background: #f5f5f7; color: #8e8e93; }
+
+        textarea { width: 100%; height: 110px; border: 1px solid #efeff4; border-radius: 16px; padding: 15px; font-size: 16px; outline: none; resize: none; background: #fafafa; font-family: inherit; transition: border 0.3s; }
+        textarea:focus { border-color: #ee4d2d; background: #fff; }
+        .primary-btn { width: 100%; background: #ee4d2d; color: white; border: none; padding: 18px; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 8px 20px rgba(238, 77, 45, 0.25); transition: all 0.3s; }
+
+        #productList { width: 100%; max-width: 500px; margin-top: 25px; display: flex; flex-direction: column; gap: 15px; }
+        .notif-card { background: #ffffff; border-radius: 20px; padding: 20px; border-top: 5px solid #ee4d2d; box-shadow: 0 10px 30px rgba(0,0,0,0.06); animation: popIn 0.4s ease-out; }
+        
+        .result-header { display: flex; gap: 15px; align-items: center; } 
+        .product-img { width: 100px; height: 100px; border-radius: 12px; object-fit: cover; border: 1px solid #eee; background: #f9f9f9; flex-shrink: 0; }
+        .product-info { flex: 1; text-align: left; }
+        .product-name { font-size: 15px; font-weight: 700; color: #1c1c1e; margin-bottom: 5px; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+
+        .action-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; width: 100%; }
+        .btn-action { border: none; cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 12px; font-weight: 800; }
+        .btn-buy { background: #ee4d2d; color: white !important; box-shadow: 0 4px 12px rgba(238, 77, 45, 0.2); }
+        .btn-action.copied { background: #34c759 !important; }
+
+        .action-row .btn-action { 
+            flex: 1; 
+            padding: 12px 2px; 
+            font-size: clamp(8px, 2.8vw, 11px); 
+            white-space: nowrap; 
+            overflow: hidden;
+            letter-spacing: -0.2px;
+        }
+        .action-row .voucher-img { flex: 2; border-radius: 8px; border: 1px solid #eee; height: auto; max-height: 55px; object-fit: cover; }
+
+        .contact-section { width: 100%; max-width: 500px; margin-top: 30px; text-align: center; }
+        .btn-zalo { display: block; width: 100%; background: #0068ff; color: white !important; text-decoration: none; padding: 16px; border-radius: 16px; font-size: 15px; font-weight: 700; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0, 104, 255, 0.15); }
+        .btn-zalo.btn-help { background: #ffffff; color: #0068ff !important; border: 1.5px solid #0068ff; }
+        footer { margin-top: auto; padding: 40px 20px; text-align: center; width: 100%; max-width: 500px; }
+        .copyright { font-size: 13px; color: #a1a1a6; line-height: 1.6; }
+        .footer-divider { height: 1px; background: linear-gradient(to right, transparent, #d1d1d6, transparent); margin-bottom: 20px; }
+        #adminSection { display: none; width: 100%; max-width: 500px; margin-top: 30px; padding: 20px; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .stats-table { width: 100%; margin-top: 15px; border-collapse: collapse; font-size: 14px; }
+        .stats-table td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+        .stats-value { font-weight: 800; color: #ee4d2d; text-align: right; }
+        @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <img src="logo.png" alt="Logo" class="logo-main" id="logoAdmin">
+            <div style="display: flex; flex-direction: column;"><h2>ĐỔI LINK SHOPEE <br> ÁP MÃ 22%</h2></div>
+        </div>
+        <div class="input-box">
+            <div class="input-actions">
+                <button class="btn-small btn-paste" onclick="pasteFromClipboard()">📋 Dán link</button>
+                <button class="btn-small btn-clear" onclick="clearInput()">✕ Xóa</button>
+            </div>
+            <textarea id="inputText" placeholder="Dán link Shopee vào đây và nhấn chuyển đổi ngay..."></textarea>
+            <button class="primary-btn" onclick="processText()" id="btnConvert">CHUYỂN ĐỔI NGAY</button>
+        </div>
+    </div>
+    
+    <div id="productList"></div>
+
+
+    <div id="adminSection">
+        <h3>📊 Thống kê lượt chuyển đổi</h3>
+        <input type="password" id="adminSecretInput" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd; text-align:center;" placeholder="Nhập mật khẩu...">
+        <button class="primary-btn" style="margin-top:0; padding:12px;" onclick="fetchAdminStats()">XEM BÁO CÁO</button>
+        <div id="statsContent" style="display:none; text-align:left; margin-top:15px;">
+            <p id="totalConverted"></p>
+            <p id="lastUpdate"></p>
+            <div id="dailyHistory"></div>
+        </div>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script>
+        async function pasteFromClipboard() { try { const t = await navigator.clipboard.readText(); if(t) document.getElementById('inputText').value = t; } catch(e) {} }
+        function clearInput() { document.getElementById('inputText').value = ''; document.getElementById('productList').innerHTML = ''; }
+        function copyToClipboard(url, btn) {
+            navigator.clipboard.writeText(url).then(() => {
+                const old = btn.innerText; btn.innerText = '✅ XONG'; btn.classList.add('copied');
+                setTimeout(() => { btn.innerText = old; btn.classList.remove('copied'); }, 2000);
+            });
+        }
+
+        async function processText() {
+            const input = document.getElementById('inputText').value;
+            const btn = document.getElementById('btnConvert');
+            const list = document.getElementById('productList');
+            if (!input.trim()) return alert('Dán link vào!');
+            btn.disabled = true; btn.innerText = 'ĐANG XỬ LÝ...';
+            list.innerHTML = ''; 
+            try {
+                const res = await fetch('/api/convert-text', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: input, subIds: ["Fb05"] })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    data.details.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'notif-card';
+                        div.innerHTML = `
+                            <div class="result-header">
+                                <img src="${item.imageUrl || 'logo.png'}" class="product-img">
+                                <div class="product-info">
+                                    <div class="product-name">${item.productName}</div>
+                                    <div style="font-size:13px; color:#34c759; font-weight:600;">✅ Sẵn sàng áp mã giảm giá</div>
+                                </div>
+                            </div>
+                            <div style="background:#fff5f2; padding:12px; border-radius:12px; border:1px solid #ffebe6; margin-top:10px;">
+                                <div class="action-row">
+                                    <button class="btn-action btn-buy" onclick="copyToClipboard('${item.short}', this)">🔗 SAO CHÉP LINK</button>
+                                </div>  
+                                 <div style="margin-top:12px; padding:12px; background:#fff9f0; border-radius:12px; border:1px dashed #ffab91; font-size:13px; color:#444; line-height:1.6;">
+                                💡 Nhấn <b style="color:#ee4d2d">"🔗 Sao chép link"</b> và dán vào dưới bình luận bài post này để áp mã 22%: 
+                                <a href="https://www.facebook.com/share/p/18T4DazRYo/" target="_blank" style="color:#007bff;">https://www.facebook.com/share/p/18T4DazRYo/</a>
+                                 <img src="22500k.jpg" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #eee;">
+                                 </div>                               
+                            </div>`;
+                                                   
+                                                
+
+                        list.appendChild(div);
+                    });
+                }
+            } catch (e) { alert('Lỗi hệ thống!'); }
+            finally { btn.disabled = false; btn.innerText = 'CHUYỂN ĐỔI NGAY'; }
+        }
+
+        let clicks = 0;
+        document.getElementById('logoAdmin').onclick = () => { if(++clicks === 5) { document.getElementById('adminSection').style.display='block'; clicks=0; } };
+
+        async function fetchAdminStats() {
+            const secret = document.getElementById('adminSecretInput').value;
+            if(!secret) return alert('Vui lòng nhập mã!');
+            try {
+                const res = await fetch('/api/admin/stats', { headers: { 'x-admin-token': secret } });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('totalConverted').innerHTML = `Hôm nay: <b style="color:#ee4d2d">${data.total_converted_links} lượt</b>`;
+                    document.getElementById('lastUpdate').innerText = `Cập nhật: ${data.last_updated}`;
+                    let dailyH = '<div class="daily-container" style="margin-top:15px; border-top:1px solid #eee; padding-top:15px; text-align:left;"><b style="font-size:14px;">📅 Lịch sử 7 ngày:</b><table class="stats-table">';
+                    if(data.daily) {
+                        Object.keys(data.daily).sort().reverse().slice(0,7).forEach(d => {
+                            dailyH += `<tr><td>${d}</td><td class="stats-value">${data.daily[d]} lượt</td></tr>`;
+                        });
+                    }
+                    dailyH += '</table></div>';
+                    document.getElementById('dailyHistory').innerHTML = dailyH;
+                    document.getElementById('statsContent').style.display = 'block';
+                } else alert('Mật khẩu chưa chính xác!');
+            } catch(e) { alert('Lỗi kết nối server!'); }
+        }
+    </script>
+</body>
+</html>
