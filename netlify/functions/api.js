@@ -64,7 +64,7 @@ async function getShopeeProductInfo(itemId) {
 // --- HÀM 3: TẠO LINK CHUẨN (UNIVERSAL REDIR) ---
 function generateUniversalLink(originalUrl, subIds = []) {
     const encodedUrl = encodeURIComponent(originalUrl);
-    let finalSubId = subIds.length > 0 ? subIds.join('-') : "Fb05";
+    let finalSubId = subIds.length > 0 ? subIds.join('-') : "shopeelivecoin";
     return `https://s.shopee.vn/an_redir?origin_link=${encodedUrl}&affiliate_id=${AFF_ID}&sub_id=${finalSubId}`;
 }
 
